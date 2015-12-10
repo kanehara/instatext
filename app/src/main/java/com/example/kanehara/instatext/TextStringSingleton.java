@@ -13,7 +13,7 @@ public class TextStringSingleton {
     private ArrayList<String> meanPrefixes = new ArrayList<>();
     private ArrayList<String> meanAdjs = new ArrayList<>();
     private ArrayList<String> meanAdverbs = new ArrayList<>();
-
+    private ArrayList<String> meanNouns = new ArrayList<>();
 
     protected TextStringSingleton() {
         // nice texts
@@ -38,7 +38,7 @@ public class TextStringSingleton {
         meanPrefixes.add("You're worse than a ");
         meanPrefixes.add("You're smellier than a ");
         meanPrefixes.add("Go suck a ");
-        meanPrefixes.add("You're such a fucking ");
+        meanPrefixes.add("You're such a fricking ");
         meanPrefixes.add("You remind me of a ");
         // mean 1
         meanAdjs.add("crusty ");
@@ -52,7 +52,6 @@ public class TextStringSingleton {
         meanAdjs.add("putrid ");
         meanAdjs.add("shitty ");
         meanAdjs.add("assinine ");
-        meanAdjs.add("sickening ");
         meanAdjs.add("lazy ");
         meanAdjs.add("insecure ");
         meanAdjs.add("idiotic ");
@@ -72,13 +71,25 @@ public class TextStringSingleton {
         meanAdjs.add("turd ");
         meanAdjs.add("fuck ");
         meanAdjs.add("ass ");
-        meanAdjs.add("");
-        meanAdjs.add("");
-        meanAdjs.add("");
-        meanAdjs.add("");
-        meanAdjs.add("");
-        meanAdjs.add("");
+        meanAdjs.add("lilly-livered ");
+        meanAdjs.add("rotten ");
+        meanAdjs.add("stinky ");
+        meanAdjs.add("lame ");
+        meanAdjs.add("dim-witted ");
+        meanAdjs.add("funky ");
+        meanAdjs.add("steamy ");
+        meanAdjs.add("drizzly ");
+        meanAdjs.add("grizzly ");
+        meanAdjs.add("squirty ");
+        meanAdjs.add("uptight ");
+        meanAdjs.add("hairy ");
+        meanAdjs.add("husky ");
+        meanAdjs.add("arrogant ");
+        meanAdjs.add("nippy ");
+        meanAdjs.add("chunky ");
+        meanAdjs.add("drooling ");
 
+        meanAdverbs.add("sickening ");
         meanAdverbs.add("pie-eating ");
         meanAdverbs.add("drug-loving ");
 
