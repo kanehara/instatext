@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         Random ran = new Random();
         TextStringSingleton sing = TextStringSingleton.getInstance();
         int seed = ran.nextInt(sing.getNiceTexts().size());
-        String message = sing.getNiceTexts().get(seed);
+        String message = (String) sing.getNiceTexts().toArray()[seed];
         TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         String userNum = tMgr.getLine1Number();
         if (userNum.equalsIgnoreCase("2488913545"))
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Random ran = new Random();
         TextStringSingleton sing = TextStringSingleton.getInstance();
         int seed = ran.nextInt(sing.getMeanTexts().size());
-        String message = sing.getMeanTexts().get(seed);
+        String message = (String) sing.getMeanTexts().toArray()[seed];
         TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         String userNum = tMgr.getLine1Number();
         if (userNum.equalsIgnoreCase("2488913545"))
