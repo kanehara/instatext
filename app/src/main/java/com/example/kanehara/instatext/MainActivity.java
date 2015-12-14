@@ -54,18 +54,46 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendMeanText() {
         // send a mean text
-        Random ran = new Random();
-        TextStringSingleton sing = TextStringSingleton.getInstance();
-        int seed = ran.nextInt(sing.getMeanTexts().size());
-        String message = (String) sing.getMeanTexts().toArray()[seed];
+        String message = genMeanMessage();
         TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         String userNum = tMgr.getLine1Number();
+
         if (userNum.equalsIgnoreCase("2488913545"))
             sendSMS("7349722262", message, "Mean");
         else if (userNum.equalsIgnoreCase("17349722262"))
             sendSMS("2488913545", message, "Mean");
     }
 
+    private String genMeanMessage() {
+        TextStringSingleton sing = TextStringSingleton.getInstance();
+        Random ran = new Random();
+        String[] prefixArr = sing.getMeanPrefixes().toArray(new String[sing.getMeanPrefixes().size()]);
+        String[] adjArr = sing.getMeanAdjs().toArray(new String[sing.getMeanAdjs().size()]);
+        String[] noun1Arr = sing.getMeanNouns1().toArray(new String[sing.getMeanNouns1().size()]);
+        String[] noun2Arr = sing.getMeanNouns2().toArray(new String[sing.getMeanNouns2().size()]);
+        String[] verbArr = sing.getMeanVerbs().toArray(new String[sing.getMeanVerbs().size()]);
+
+
+        int preSeed = ran.nextInt(prefixArr.length);
+        int adj1Seed = ran.nextInt(adjArr.length);
+        int noun1Seed = ran.nextInt(noun1Arr.length);
+        int noun2Seed = ran.nextInt(noun2Arr.length);
+        int verbSeed = ran.nextInt(verbArr.length);
+
+
+        StringBuilder result = new StringBuilder();
+        result.append(prefixArr[preSeed]);
+        result.append(" ");
+        result.append(adjArr[adj1Seed]);
+        result.append(" ");
+        result.append(noun1Arr[noun1Seed]);
+        result.append(" ");
+        result.append(verbArr[verbSeed]);
+        result.append(" ");
+        result.append(noun2Arr[noun2Seed]);
+
+        return result.toString();
+    }
 
     private void sendSMS(String phoneNum, String mess, String type) {
         try {

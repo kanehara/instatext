@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/holo_purple"
     tools:context="com.example.kanehara.instatext.MainActivity">
 
     <RelativeLayout
@@ -18,13 +19,13 @@
             android:id="@+id/niceButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@android:color/holo_purple"
+            android:background="@android:drawable/btn_default"
             android:text="Nice"/>
         <Button
             android:id="@+id/meanButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@android:color/holo_red_dark"
+            android:background="@android:drawable/btn_default"
             android:layout_below="@+id/niceButton"
             android:layout_alignLeft="@+id/niceButton"
             android:layout_marginTop="10dp"

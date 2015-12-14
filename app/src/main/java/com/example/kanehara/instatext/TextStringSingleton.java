@@ -9,7 +9,6 @@ import java.util.HashSet;
 public class TextStringSingleton {
     private static TextStringSingleton instance = null;
     private HashSet<String> niceTexts = new HashSet<>();
-    private HashSet<String> meanTexts = new HashSet<>();
 
     private HashSet<String> meanPrefixes = new HashSet<>();
     private HashSet<String> meanAdjs = new HashSet<>();
@@ -23,21 +22,23 @@ public class TextStringSingleton {
     }
 
     private void initMean() {
-        // mean texts
-        meanTexts.add("You're a butt muncher >:(");
-        meanTexts.add("You poop licker");
-        meanTexts.add("You smell bad");
-        meanTexts.add("You slimy turd captain");
-        meanTexts.add("You're nothing but a stinky toot cabbage");
-        meanTexts.add("You're a bawdy monkey licking pancake");
+        initMeanPrefixes();
+        initMeanAdjectives();
+        initMeanNouns1();
+        initMeanNouns2();
+        initMeanVerbs();
+    }
 
+    private void initMeanPrefixes() {
         // mean prefixes
-        meanPrefixes.add("You're worse than a ");
-        meanPrefixes.add("You're smellier than a ");
-        meanPrefixes.add("Go suck a ");
-        meanPrefixes.add("You're such a fricking ");
-        meanPrefixes.add("You remind me of a ");
+        meanPrefixes.add("You're worse than a");
+        meanPrefixes.add("You're smellier than a");
+        meanPrefixes.add("Go suck a");
+        meanPrefixes.add("You're such a fricking");
+        meanPrefixes.add("You remind me of a");
+    }
 
+    private void initMeanAdjectives() {
         // mean adjectives
         meanAdjs.add("crusty");
         meanAdjs.add("decrepic");
@@ -99,7 +100,9 @@ public class TextStringSingleton {
         meanAdjs.add("guts griping");
         meanAdjs.add("half faced");
         meanAdjs.add("hasty witted");
+    }
 
+    private void initMeanNouns1() {
         // mean nouns 1
         meanNouns1.add("cunt");
         meanNouns1.add("shit");
@@ -128,29 +131,9 @@ public class TextStringSingleton {
         meanNouns1.add("taint");
         meanNouns1.add("boner");
         meanNouns1.add("sphincter");
+    }
 
-        // mean verbs
-        meanVerbs.add("eating");
-        meanVerbs.add("fowling");
-        meanVerbs.add("kissing");
-        meanVerbs.add("kicking");
-        meanVerbs.add("licking");
-        meanVerbs.add("munching");
-        meanVerbs.add("fucking");
-        meanVerbs.add("sniffing");
-        meanVerbs.add("spanking");
-        meanVerbs.add("flicking");
-        meanVerbs.add("loving");
-        meanVerbs.add("worshiping");
-        meanVerbs.add("guzzling");
-        meanVerbs.add("gobbling");
-        meanVerbs.add("chugging");
-        meanVerbs.add("pouding");
-        meanVerbs.add("riding");
-        meanVerbs.add("banging");
-        meanVerbs.add("peddling");
-        meanVerbs.add("fapping");
-
+    private void initMeanNouns2() {
         // mean noun 2
         meanNouns2.add("squeegee");
         meanNouns2.add("turtle");
@@ -216,7 +199,7 @@ public class TextStringSingleton {
         meanNouns2.add("waffle");
         meanNouns2.add("goblin");
         meanNouns2.add("blossum");
-        meanNouns2.add("bisquit");
+        meanNouns2.add("biscuit");
         meanNouns2.add("clown");
         meanNouns2.add("socket");
         meanNouns2.add("monster");
@@ -254,19 +237,72 @@ public class TextStringSingleton {
         meanNouns2.add("tortilla");
         meanNouns2.add("brocolli");
         meanNouns2.add("bologna");
+    }
 
+    private void initMeanVerbs() {
+        // mean verbs
+        meanVerbs.add("eating");
+        meanVerbs.add("fowling");
+        meanVerbs.add("kissing");
+        meanVerbs.add("kicking");
+        meanVerbs.add("licking");
+        meanVerbs.add("munching");
+        meanVerbs.add("fucking");
+        meanVerbs.add("sniffing");
+        meanVerbs.add("spanking");
+        meanVerbs.add("flicking");
+        meanVerbs.add("loving");
+        meanVerbs.add("worshiping");
+        meanVerbs.add("guzzling");
+        meanVerbs.add("gobbling");
+        meanVerbs.add("chugging");
+        meanVerbs.add("pouding");
+        meanVerbs.add("riding");
+        meanVerbs.add("banging");
+        meanVerbs.add("peddling");
+        meanVerbs.add("fapping");
     }
 
     private void initNice() {
-        // nice texts
-        niceTexts.add("Love youuuuuu <3");
-        niceTexts.add("You're so beautiful :)");
-        niceTexts.add("You're the best");
-        niceTexts.add("I like your butt");
-        niceTexts.add("You're sexy ;)");
-        niceTexts.add("Did you sit in a pile of sugar? Cause you have a pretty sweet ass.");
-        niceTexts.add("If you were a vegetable you'd be a cute-cumber.");
-        niceTexts.add("Does your left eye hurt? Because you've been looking right all day.");
+        this.niceTexts.add("If you were a vegetable you'd be a cute-cumber.");
+        this.niceTexts.add("Can I have your picture so I can show Santa what I want for Christmas?");
+        this.niceTexts.add("You're beautiful :)");
+        this.niceTexts.add("If I had a star for every time you brightened my day, I'd have a galaxy");
+        this.niceTexts.add("Kissing burns 5 calories a minute. How about a workout?");
+        this.niceTexts.add("Know what's on the menu? Me-n-u.");
+        this.niceTexts.add("If kisses were snowflakes, I'd send you a blizzard.");
+        this.niceTexts.add("You're so beautiful you made me forget my pick up line.");
+        this.niceTexts.add("If I could rearrange the alphabet, I'd put U and I together.");
+        this.niceTexts.add("Did you have lucky charms for breakfast? Because you look magically delicious!");
+        this.niceTexts.add("You must be Jamaican, because Jamaican me crazy.");
+        this.niceTexts.add("What’s the difference between a Ferrari and an erection? I don’t have a Ferrari.");
+        this.niceTexts.add("I don't have a library card, but do you mind if I check you out?");
+        this.niceTexts.add("I was feeling a little off today, but you definitely turned me on");
+        this.niceTexts.add("Does your left eye hurt? Because you've been looking right all day");
+        this.niceTexts.add("You look cold. Want to use me as a blanket?");
+        this.niceTexts.add("Are you a parking ticket? 'Cause you've got fine written all over you");
+        this.niceTexts.add("My doctor says I'm lacking Vitamin U");
+        this.niceTexts.add("Have you been to the doctor lately? Cause I think you're lacking some Vitamin Me");
+        this.niceTexts.add("Because of you, I laugh a little harder, cry a little less, and smile a lot more");
+        this.niceTexts.add("You're so beautiful that you made me forget my pickup line");
+        this.niceTexts.add("If I were a cat I'd spend all 9 lives with you");
+        this.niceTexts.add("Do you work at Starbucks? Because I like you a latte");
+        this.niceTexts.add("Are you a banana? Because I find you a-peeling");
+        this.niceTexts.add("Are you from Tennessee? Because you're the only ten I see!");
+        this.niceTexts.add("If you were a booger I'd pick you first");
+        this.niceTexts.add("You wanna know what's beautiful? Read the first word again");
+        this.niceTexts.add("Are you African? Because you're a frican babe");
+        this.niceTexts.add("Life without you would be like a broken pencil... pointless");
+        this.niceTexts.add("You are like a candy bar: half sweet and half nuts.");
+        this.niceTexts.add("If I could rearrange the alphabet, I would put 'U' and 'I' together");
+        this.niceTexts.add("Are you a cat? Cause you are purrrfect");
+        this.niceTexts.add("I hope your day has been as beautiful as you are");
+        this.niceTexts.add("I hope you know CPR, cuz you take my breath away!");
+        this.niceTexts.add("You make me melt like hot fudge on a sundae");
+        this.niceTexts.add("You're hotter than Papa Bear's porridge.");
+        this.niceTexts.add("Was that an earthquake or did you just rock my world?");
+        this.niceTexts.add("If you were a burger at McDonalds, you'd be McGorgeous.");
+
     }
 
     public static TextStringSingleton getInstance() {
@@ -278,12 +314,11 @@ public class TextStringSingleton {
     public HashSet<String> getNiceTexts() {
         return this.niceTexts;
     }
-    public HashSet<String> getMeanTexts() {
-        return this.meanTexts;
-    }
+
     public HashSet<String> getMeanPrefixes() { return this.meanPrefixes; }
     public HashSet<String> getMeanAdjs() { return this.meanAdjs; }
-    public HashSet<String> getmeanNouns1() { return this.meanNouns1; }
+    public HashSet<String> getMeanNouns1() { return this.meanNouns1; }
+    public HashSet<String> getMeanNouns2() { return this.meanNouns2; }
     public HashSet<String> getMeanVerbs() { return this.meanVerbs; }
 
 }
