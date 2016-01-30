@@ -1,10 +1,9 @@
 package com.example.kanehara.instatext;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
+import android.Manifest;
 import android.content.Context;
-import android.content.IntentFilter;
-import android.graphics.Color;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,13 +11,17 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.telephony.SmsManager;
 import java.util.Random;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int INSTATEXT_PERM_READ_SMS = 1;
+    private enum MessageType {
+        NICE, MEAN
+    }
+    private MessageType msgType;
+    private String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,41 +30,61 @@ public class MainActivity extends AppCompatActivity {
         final Button happyButton = (Button) findViewById(R.id.niceButton);
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendNiceText();
+                showNiceText();
             }
         });
         final Button meanButton = (Button) findViewById(R.id.meanButton);
         meanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendMeanText();
+                showMeanText();
+            }
+        });
+        final Button sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setEnabled(false);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendText();
             }
         });
     }
 
-    private void sendNiceText() {
+    private void sendText() {
+        TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        int permCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
+        if (permCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS},
+                    INSTATEXT_PERM_READ_SMS);
+        }
+        else {
+            String userNum = tMgr.getLine1Number();
+            if (userNum.equalsIgnoreCase("+12488913545"))
+                sendSMS("7349722262", message);
+            else if (userNum.equalsIgnoreCase("17349722262"))
+                sendSMS("12488913545", message);
+        }
+    }
+
+    private void showNiceText() {
         // send a happy text
         Random ran = new Random();
         TextStringSingleton sing = TextStringSingleton.getInstance();
         int seed = ran.nextInt(sing.getNiceTexts().size());
-        String message = (String) sing.getNiceTexts().toArray()[seed];
-        TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-        String userNum = tMgr.getLine1Number();
-        if (userNum.equalsIgnoreCase("2488913545"))
-            sendSMS("7349722262", message, "Nice");
-        else if (userNum.equalsIgnoreCase("17349722262"))
-            sendSMS("2488913545", message, "Nice");
+        message = (String) sing.getNiceTexts().toArray()[seed];
+        msgType = MessageType.NICE;
+        TextView textView = (TextView) findViewById(R.id.messageBox);
+        Button sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setEnabled(true);
+        textView.setText(message);
     }
 
-    private void sendMeanText() {
+    private void showMeanText() {
         // send a mean text
-        String message = genMeanMessage();
-        TelephonyManager tMgr = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-        String userNum = tMgr.getLine1Number();
-
-        if (userNum.equalsIgnoreCase("2488913545"))
-            sendSMS("7349722262", message, "Mean");
-        else if (userNum.equalsIgnoreCase("17349722262"))
-            sendSMS("2488913545", message, "Mean");
+        message = genMeanMessage();
+        msgType = MessageType.NICE;
+        TextView textView = (TextView) findViewById(R.id.messageBox);
+        Button sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setEnabled(true);
+        textView.setText(message);
     }
 
     private String genMeanMessage() {
@@ -80,31 +103,39 @@ public class MainActivity extends AppCompatActivity {
         int noun2Seed = ran.nextInt(noun2Arr.length);
         int verbSeed = ran.nextInt(verbArr.length);
 
+        int formatSeed = ran.nextInt(2);
+
 
         StringBuilder result = new StringBuilder();
         result.append(prefixArr[preSeed]);
         result.append(" ");
-        result.append(adjArr[adj1Seed]);
-        result.append(" ");
-        result.append(noun1Arr[noun1Seed]);
-        result.append(" ");
-        result.append(verbArr[verbSeed]);
-        result.append(" ");
+        if (formatSeed == 0) {
+            result.append(adjArr[adj1Seed]);
+            result.append(" ");
+        }
+        else if (formatSeed == 1) {
+            result.append(noun1Arr[noun1Seed]);
+            result.append(" ");
+            result.append(verbArr[verbSeed]);
+            result.append(" ");
+        }
         result.append(noun2Arr[noun2Seed]);
 
         return result.toString();
     }
 
-    private void sendSMS(String phoneNum, String mess, String type) {
+    private void sendSMS(String phoneNum, String mess) {
         try {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(phoneNum, null, mess, null, null);
-            Toast toast = Toast.makeText(getApplicationContext(), type+" text sent!", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(), msgType.toString() +" text sent!", Toast.LENGTH_LONG);
             TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-            if (type == "Mean")
+            if (msgType == MessageType.MEAN)
                 v.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_red_dark));
-            else if (type == "Nice")
+            else if (msgType == MessageType.NICE)
                 v.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_purple));
+            else
+                System.err.println("Invalid message type in sendSMS method");
             toast.show();
         }
         catch (Exception e) {
