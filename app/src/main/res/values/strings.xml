@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Instatext</string>
+    <string name="rec_hint">Enter name or phone number</string>
 </resources>
