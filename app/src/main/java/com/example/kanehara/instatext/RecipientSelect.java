@@ -28,6 +28,7 @@ public class RecipientSelect extends AppCompatActivity {
 
     private static TreeMap<String, Recipient> contactMap = new TreeMap<>();
     private EditText recEditText;
+    private static TreeMapAdapter adapter;
 
     private static final int INSTATEXT_PERM_READ_CONTACTS = 1;
     public static final String PREFS_NAME = "InstaTextPrefs";
@@ -43,7 +44,7 @@ public class RecipientSelect extends AppCompatActivity {
     public static void setContactFavorite(String mapId, boolean isFavorite) {
         if (contactMap.containsKey(mapId))
             contactMap.get(mapId).setIsFavorite(isFavorite);
-
+        adapter.notifyDataSetChanged();
     }
 
     private void initRecEditText() {
@@ -89,7 +90,7 @@ public class RecipientSelect extends AppCompatActivity {
                 cur.close();
             }
         }
-        final TreeMapAdapter adapter = new TreeMapAdapter(contactMap, this);
+        adapter = new TreeMapAdapter(contactMap, this);
         ListView contactListView = (ListView) findViewById(R.id.contactList);
         contactListView.setAdapter(adapter);
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

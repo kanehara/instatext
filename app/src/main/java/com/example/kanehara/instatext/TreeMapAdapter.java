@@ -81,6 +81,7 @@ public class TreeMapAdapter extends BaseAdapter {
                 treeMap.get(rec.getMapId()).setIsFavorite(isChecked);
                 SharedPreferences.Editor settingsEditor = context.getSharedPreferences(RecipientSelect.PREFS_NAME, 0).edit();
                 settingsEditor.putBoolean(rec.getPhoneNumber(), isChecked);
+                settingsEditor.commit();
             }
         });
         holder.contactFavorite.setChecked(rec.getIsFavorite());
