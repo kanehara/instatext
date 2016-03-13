@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private MessageType msgType;
     private String message;
+    private String recNumber;
+    private String recName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         if (extras != null) {
             ((TextView) recView.findViewById(R.id.contactName)).setText(extras.getString("recName"));
             ((TextView) recView.findViewById(R.id.contactNumber)).setText(extras.getString("recNumber"));
+            recName = extras.getString("recName");
+            recNumber = extras.getString("recNumber");
         }
         recLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         happyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 showNiceText();
+                msgType = MessageType.NICE;
             }
         });
     }
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         meanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 showMeanText();
+                msgType = MessageType.MEAN;
             }
         });
     }
@@ -93,11 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     INSTATEXT_PERM_READ_SMS);
         }
         else {
-            String userNum = tMgr.getLine1Number();
-            if (userNum.equalsIgnoreCase("+12488913545"))
-                sendSMS("7349722262", message);
-            else if (userNum.equalsIgnoreCase("17349722262"))
-                sendSMS("12488913545", message);
+            sendSMS(recNumber, message);
         }
     }
 
@@ -165,7 +167,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(phoneNum, null, mess, null, null);
-            Toast toast = Toast.makeText(getApplicationContext(), msgType.toString() +" text sent!", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    msgType.toString() +" text sent to " + recName + "!",
+                    Toast.LENGTH_LONG);
             TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
             if (msgType == MessageType.MEAN)
                 v.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.holo_red_dark));

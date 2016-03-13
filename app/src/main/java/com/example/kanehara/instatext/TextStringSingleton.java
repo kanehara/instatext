@@ -302,6 +302,24 @@ public class TextStringSingleton {
         this.niceTexts.add("You're hotter than Papa Bear's porridge.");
         this.niceTexts.add("Was that an earthquake or did you just rock my world?");
         this.niceTexts.add("If you were a burger at McDonalds, you'd be McGorgeous.");
+        this.niceTexts.add("I knew I loved you when I farted and you didn't run away");
+        this.niceTexts.add("You treat me like a unicorn even when I'm a jackass");
+        this.niceTexts.add("There is nobody else I'd rather lie in bed and look at my phone next to");
+        this.niceTexts.add("Sex with you is so good we should celebrate it with sex");
+        this.niceTexts.add("I think you have something on your butt. Oh wait, it's my eyes");
+        this.niceTexts.add("I see you're feeling down. Allow me to feel you up");
+        this.niceTexts.add("Do you buy your pants on sale? Because at my place, they'd be 100% off");
+        this.niceTexts.add("Are you Japanese? Because I'm trying to get into your japanties");
+        this.niceTexts.add("Are you a dementor? Because you take my breath away");
+        this.niceTexts.add("Are you google? Because you've got everything I'm searching for");
+        this.niceTexts.add("I don't think Pythagorean Theorem works on you. You're too acute");
+        this.niceTexts.add("You must be the square root of -1, because you can't be real");
+        this.niceTexts.add("Is your name Wi-Fi? Because I'm feeling a connection");
+        this.niceTexts.add("Is your name Waldo? Because someone like you is hard to find");
+        this.niceTexts.add("On a scale of 1 to 10, you're a 9 and I'm the 1 you need");
+        this.niceTexts.add("R4 is red, R2 is blue, if I was the force, I'd be with you");
+        this.niceTexts.add("If you were a fruit, you'd be a fineapple");
+        this.niceTexts.add("You can call me Nemo, because I'm never afraid to touch the butt");
 
     }
 
