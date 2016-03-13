@@ -3,45 +3,51 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:paddingLeft="5px"
+    android:paddingBottom="25px"
+    android:paddingTop="25px"
+    android:paddingRight="25px"
+    >
     <ImageView
         android:id="@+id/contactImage"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop = "true"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_width="120px"
+        android:layout_height="120px"
+        android:layout_centerVertical="true"
         />
     <TextView
         android:id="@+id/contactNumber"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/contactImage"
-        android:layout_toLeftOf="@+id/favCheck"
+        android:layout_toLeftOf="@+id/contactFavorite"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="75px"
         android:singleLine="true"
-        android:paddingLeft="60px"
+        android:paddingLeft="20px"
         android:text="Contact Number"
         android:textSize="30px"
-        android:textColor="#848484"/>
+        android:textColor="#848484"
+        android:layout_marginBottom="-20px"/>
     <TextView
         android:id="@+id/contactName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/contactImage"
         android:layout_alignParentRight="true"
-        android:layout_toLeftOf="@+id/favCheck"
+        android:layout_toLeftOf="@+id/contactFavorite"
         android:layout_alignParentTop="true"
         android:singleLine="true"
-        android:layout_marginTop="20px"
         android:paddingLeft="20px"
         android:text="Contact Name"
         android:textSize="40px"
-        android:textColor="#000"/>
+        android:textColor="#000" />
     <CheckBox
-        android:id="@+id/favCheck"
+        android:id="@+id/contactFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:button="@android:drawable/btn_star"

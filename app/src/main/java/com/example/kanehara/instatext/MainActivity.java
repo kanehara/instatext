@@ -3,7 +3,9 @@ package com.example.kanehara.instatext;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +15,10 @@ import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private MessageType msgType;
     private String message;
-    private String recNumber;
-    private String recName;
+    private Recipient recipient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +52,31 @@ public class MainActivity extends AppCompatActivity {
         View recView = layoutInflater.inflate(R.layout.contact_row, null);
 
         if (extras != null) {
-            ((TextView) recView.findViewById(R.id.contactName)).setText(extras.getString("recName"));
-            ((TextView) recView.findViewById(R.id.contactNumber)).setText(extras.getString("recNumber"));
-            recName = extras.getString("recName");
-            recNumber = extras.getString("recNumber");
+            recipient = new Recipient(extras.getString("recMapId"),
+                                        extras.getString("recNumber"),
+                                        extras.getString("recFullName"),
+                                        extras.getBoolean("isFavorite"),
+                                        Uri.parse(extras.getString("recPhoto")));
+            ((TextView) recView.findViewById(R.id.contactName)).setText(recipient.getFullName());
+            ((TextView) recView.findViewById(R.id.contactNumber)).setText(recipient.getPhoneNumber());
+            ((ImageView) recView.findViewById(R.id.contactImage)).setImageURI(recipient.getPhoto());
+            ((CheckBox) recView.findViewById(R.id.contactFavorite)).setChecked(recipient.getIsFavorite());
         }
+        ((CheckBox) recView.findViewById(R.id.contactFavorite)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                recipient.setIsFavorite(isChecked);
+                RecipientSelect.setContactFavorite(recipient.getMapId(), isChecked);
+                SharedPreferences.Editor settingsEditor = getSharedPreferences(RecipientSelect.PREFS_NAME, 0).edit();
+                settingsEditor.putBoolean(recipient.getPhoneNumber(), isChecked);
+                settingsEditor.commit();
+            }
+        });
         recLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(v.getContext(), RecipientSelect.class);
+                startActivity(intent);
             }
         });
 
@@ -99,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     INSTATEXT_PERM_READ_SMS);
         }
         else {
-            sendSMS(recNumber, message);
+            sendSMS(recipient.getPhoneNumber(), message);
         }
     }
 
@@ -168,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             SmsManager sms = SmsManager.getDefault();
             sms.sendTextMessage(phoneNum, null, mess, null, null);
             Toast toast = Toast.makeText(getApplicationContext(),
-                    msgType.toString() +" text sent to " + recName + "!",
+                    msgType.toString() +" text sent to " + recipient.getFullName() + "!",
                     Toast.LENGTH_LONG);
             TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
             if (msgType == MessageType.MEAN)
