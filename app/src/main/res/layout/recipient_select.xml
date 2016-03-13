@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="com.example.kanehara.instatext.RecipientSelect"
+    android:id="@+id/rootLayout"
+    android:padding="50px">
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recEditText"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/rec_hint" >
+    </EditText>
+    <ListView
+        android:id="@+id/contactList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recEditText"
+        android:divider="@drawable/list_divider">
+    </ListView>
+
+</LinearLayout>

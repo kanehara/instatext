@@ -1,85 +1,61 @@
 package com.example.kanehara.instatext;
 
 import android.Manifest;
-import android.app.Service;
-import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.provider.ContactsContract;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.telephony.SmsManager;
-
-import java.util.HashMap;
-import java.util.Random;
 import android.widget.Toast;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static final int INSTATEXT_PERM_READ_SMS = 1;
-    private static final int INSTATEXT_PERM_READ_CONTACTS = 1;
     private enum MessageType {
         NICE, MEAN
     }
     private MessageType msgType;
     private String message;
-    private HashMap<String, String> contactMap = new HashMap<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initRecTextView();
         initNiceButton();
         initMeanButton();
         initSendButton();
-        initContacts();
-        initRecEditText();
     }
 
-    private void initRecEditText() {
-        final ListView contactList = (ListView)findViewById(R.id.contactList);
-        contactList.setEnabled(false);
-        contactList.setVisibility(View.INVISIBLE);
-        final EditText recEditText = (EditText) findViewById(R.id.recEditText);
+    public void initRecTextView() {
+        Bundle extras = getIntent().getExtras();
+        RelativeLayout recLayout = (RelativeLayout) findViewById(R.id.recLayout);
 
-        recEditText.setOnClickListener(new View.OnClickListener() {
+        LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View recView = layoutInflater.inflate(R.layout.contact_row, null);
+
+        if (extras != null) {
+            ((TextView) recView.findViewById(R.id.contactName)).setText(extras.getString("recName"));
+            ((TextView) recView.findViewById(R.id.contactNumber)).setText(extras.getString("recNumber"));
+        }
+        recLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contactList.setEnabled(true);
-                contactList.setVisibility(View.VISIBLE);
-                contactList.bringToFront();
+                finish();
             }
         });
-        findViewById(R.id.rootLayout).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int diff = findViewById(R.id.rootLayout).getRootView().getHeight()
-                            - findViewById(R.id.rootLayout).getHeight();
-                System.out.println(diff);
-                if (diff > 800) {
-                    contactList.setEnabled(true);
-                    contactList.setVisibility(View.VISIBLE);
-                    contactList.bringToFront();
-                }
-                else {
-                    contactList.setEnabled(false);
-                    contactList.setVisibility(View.GONE);
-                }
-            }
-        });
+
+        recLayout.addView(recView);
     }
 
     private void initNiceButton() {
@@ -107,53 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 sendText();
             }
         });
-    }
-
-    private void initContacts() {
-        ContentResolver cr = getContentResolver();
-        int permCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
-        if (permCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS},
-                    INSTATEXT_PERM_READ_CONTACTS);
-        }
-        else {
-            Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-            if (cur.getCount() > 0) {
-                while (cur.moveToNext()) {
-                    String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-                    String name = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                    String number = null;
-                    if (Integer.parseInt(cur.getString
-                            (cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-                        Cursor pCur = cr.query(
-                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                null,
-                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                                new String[]{id}, null);
-                        while (pCur.moveToNext()) {
-                            number = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        }
-                    }
-                    if (number != null && !contactMap.containsKey(number)) {
-                        number = number.replaceAll("\\D+","");
-                        contactMap.put(number, name);
-                    }
-                }
-            }
-        }
-        final HashMapAdapter adapter = new HashMapAdapter(contactMap, this);
-        ListView contactListView = (ListView) findViewById(R.id.contactList);
-        contactListView.setAdapter(adapter);
-        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int pos, long id) {
-                System.out.println("Row clicked");
-            }
-        });
-    }
-
-    private void setRecipient() {
-
     }
 
     private void sendText() {

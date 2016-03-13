@@ -16,6 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/contactImage"
+        android:layout_toLeftOf="@+id/favCheck"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/contactImage"
         android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/favCheck"
         android:layout_alignParentTop="true"
         android:singleLine="true"
         android:layout_marginTop="20px"
@@ -38,4 +40,13 @@
         android:text="Contact Name"
         android:textSize="40px"
         android:textColor="#000"/>
+    <CheckBox
+        android:id="@+id/favCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@android:drawable/btn_star"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 </RelativeLayout>

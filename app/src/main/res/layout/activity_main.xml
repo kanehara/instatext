@@ -8,62 +8,54 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context="com.example.kanehara.instatext.MainActivity"
-    android:id="@+id/rootLayout">
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recEditText"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/rec_hint" >
-    </EditText>
-    <ListView
-        android:id="@+id/contactList"
+    tools:context="com.example.kanehara.instatext.MainActivity">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recEditText"
-        android:divider="@drawable/list_divider">
-    </ListView>
+        android:layout_height="150px"
+        android:layout_marginBottom="50px"
+        android:layout_margin="30px"
+        android:textAlignment="center"
+        android:id="@+id/recLayout"/>
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/buttonLayout"
         android:layout_marginTop="30px"
-        android:layout_below="@+id/recEditText">
+        android:layout_below="@+id/recLayout">
         <Button
             android:id="@+id/niceButton"
             android:layout_width="200px"
             android:layout_height="200px"
             android:background="@android:drawable/btn_default"
             android:text="Nice"
-            android:layout_marginRight="20px"/>
+            android:layout_marginRight="80px"/>
         <Button
             android:id="@+id/meanButton"
             android:layout_width="200px"
             android:layout_height="200px"
             android:background="@android:drawable/btn_default"
             android:text="Mean"
-            android:layout_marginLeft="20px"/>
+            android:layout_marginLeft="80px"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/messageBox"
         android:textAlignment="center"
-        android:layout_margin="60px"
+        android:layout_margin="150px"
         android:layout_below="@+id/buttonLayout"
         android:textColor="#ffffff" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/messageBox"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="100px">
         <Button
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
-            android:layout_height="130px"
+            android:layout_height="150px"
             android:text="Send"/>
     </RelativeLayout>
 
