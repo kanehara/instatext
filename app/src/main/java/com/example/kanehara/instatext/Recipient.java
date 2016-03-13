@@ -23,6 +23,14 @@ public class Recipient {
         this.photo = photo;
     }
 
+    public Recipient(Recipient r) {
+        this.mapId = r.mapId;
+        this.phoneNumber = r.phoneNumber;
+        this.fullName = r.fullName;
+        this.isFavorite = r.isFavorite;
+        this.photo= r.photo;
+    }
+
     public String getMapId() {
         return mapId;
     }

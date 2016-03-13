@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -16,12 +20,36 @@
         android:layout_centerHorizontal="true"
         android:hint="@string/rec_hint" >
     </EditText>
+    <TextView
+        android:id="@+id/favoriteHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Favorites"
+        android:layout_below="@+id/recEditText"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="275px"
+        android:id="@+id/favoriteList"
+        android:divider="@drawable/list_divider"
+        android:layout_below="@+id/favoriteHeader"
+        android:dividerHeight="1px">
+    </ListView>
+    <TextView
+        android:id="@+id/contactHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Contacts"
+        android:layout_below="@+id/favoriteList"/>
     <ListView
         android:id="@+id/contactList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recEditText"
-        android:divider="@drawable/list_divider">
+        android:divider="@drawable/list_divider"
+        android:layout_below="@id/contactHeader"
+        android:dividerHeight="1px">
     </ListView>
 
-</LinearLayout>
+</RelativeLayout>
+</ScrollView>

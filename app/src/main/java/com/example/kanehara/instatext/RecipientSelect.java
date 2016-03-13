@@ -3,6 +3,7 @@ package com.example.kanehara.instatext;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -27,8 +28,10 @@ import java.util.TreeMap;
 public class RecipientSelect extends AppCompatActivity {
 
     private static TreeMap<String, Recipient> contactMap = new TreeMap<>();
+    private static TreeMap<String, Recipient> favoriteMap = new TreeMap<>();
     private EditText recEditText;
-    private static TreeMapAdapter adapter;
+    private static TreeMapAdapter mainContactsAdapter;
+    private static TreeMapAdapter favoritesAdapter;
 
     private static final int INSTATEXT_PERM_READ_CONTACTS = 1;
     public static final String PREFS_NAME = "InstaTextPrefs";
@@ -42,9 +45,24 @@ public class RecipientSelect extends AppCompatActivity {
     }
 
     public static void setContactFavorite(String mapId, boolean isFavorite) {
-        if (contactMap.containsKey(mapId))
-            contactMap.get(mapId).setIsFavorite(isFavorite);
-        adapter.notifyDataSetChanged();
+        if (isFavorite) {
+            if (contactMap.get(mapId) != null) {
+                Recipient rec = new Recipient(contactMap.get(mapId));
+                contactMap.remove(mapId);
+                rec.setIsFavorite(isFavorite);
+                favoriteMap.put(mapId, rec);
+            }
+        }
+        else {
+            if (favoriteMap.get(mapId) != null) {
+                Recipient rec = new Recipient(favoriteMap.get(mapId));
+                favoriteMap.remove(mapId);
+                rec.setIsFavorite(isFavorite);
+                contactMap.put(mapId, rec);
+            }
+        }
+        mainContactsAdapter.notifyDataSetChanged();
+        favoritesAdapter.notifyDataSetChanged();
     }
 
     private void initRecEditText() {
@@ -82,17 +100,21 @@ public class RecipientSelect extends AppCompatActivity {
                         number = number.replaceAll("\\D+","");
                     boolean isFavorite = getIsFavoriteForNumber(number);
                     Recipient rec = new Recipient(fullName+number, number, fullName, isFavorite, photo);
-
-                    if (number != null && !contactMap.containsKey(number)) {
-                        contactMap.put(fullName+number, rec);
+                    if (number != null) {
+                        if (!isFavorite)
+                            contactMap.put(fullName + number, rec);
+                        else
+                            favoriteMap.put(fullName + number, rec);
                     }
                 }
                 cur.close();
             }
         }
-        adapter = new TreeMapAdapter(contactMap, this);
+        mainContactsAdapter = new TreeMapAdapter(contactMap, this);
+        favoritesAdapter = new TreeMapAdapter(favoriteMap, this);
+        // init main contacts list
         ListView contactListView = (ListView) findViewById(R.id.contactList);
-        contactListView.setAdapter(adapter);
+        contactListView.setAdapter(mainContactsAdapter);
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int pos, long id) {
@@ -107,6 +129,27 @@ public class RecipientSelect extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // init favorites list
+
+        ListView favoriteListView = (ListView) findViewById(R.id.favoriteList);
+        favoriteListView.setAdapter(favoritesAdapter);
+        favoriteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int pos, long id) {
+                Recipient rec = ((TreeMapAdapter.ContactViewHolder) view.getTag()).rec;
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                intent.putExtra("recMapId", rec.getMapId());
+                intent.putExtra("recNumber", rec.getPhoneNumber());
+                intent.putExtra("recFullName", rec.getFullName());
+                intent.putExtra("isFavorite", rec.getIsFavorite());
+                intent.putExtra("recPhoto", rec.getPhoto().toString());
+
+                startActivity(intent);
+            }
+        });
+
+        ListUtils.setDynamicHeight(contactListView);
+        ListUtils.setDynamicHeight(favoriteListView);
     }
 
     private boolean getIsFavoriteForNumber(String number) {
